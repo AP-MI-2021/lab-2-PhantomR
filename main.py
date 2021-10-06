@@ -1,3 +1,6 @@
+from typing import Optional, Tuple
+
+
 def is_prime(n):
     """
     Tests whether an integer is a prime number.
@@ -15,12 +18,16 @@ def is_prime(n):
     if (n == 0) or (n == 1):
         return False
 
-    # 2 is a prime
-    if (n == 2):
+    # 2 and 3 are primes
+    if (n == 2) or (n ==3):
         return True
 
-    # for numbers > 2, we can start checking divisors from 2 up to number / 2 (inclusive because of number 4)
-    for d in range(2, (n // 2) + 1 , 2):
+    # all even numbers > 2 are NOT primes
+    if n % 2 == 0:
+        return False
+
+    # for odd numbers > 2, we only check odd divisors
+    for d in range(3, (n // 2) + 1 , 2):
         if n % d == 0:
           return False
 
@@ -76,6 +83,45 @@ def get_largest_prime_below(n: int) -> int:
     return -1
 
 
+def get_goldbach(n: int) -> Optional[Tuple[int, int]]:
+    """
+    Finds whether a given natural number can be written as the sum of two primes, returning a decomposition in which the
+    first prime is the lowest possible (and hence, the second is the largest possible) if it exists, or reports if no
+    such decomposition exists.
+
+    Parameters
+    ----------
+    n : int
+        The natural number we are trying to write as a sum of two primes.
+
+    Returns
+    -------
+    An (int, int) tuple representing two primes which add up to n (such that the first one is the lowest possible),
+    if they exist ; None, otherwise.
+    """
+
+    # We only consider natural numbers. The numbers 1, 2 and 3 cannot be decomposed as the sum of two primes.
+    if n <= 3:
+        return None
+
+    # OPTIMIZATION: If n = p1 + p2, where n is odd and p1, p2 are primes, then one of p1, p2 must be even, so must be 2.
+    # So, when n is odd, it is enough to test whether (n-2) is a prime, as no other possible decompositions
+    # exist, except for (2, n-2) (and (n-2, 2)).
+    if n % 2 == 1:
+        if is_prime(n - 2):
+            return 2, n - 2
+
+    # When n is even, we find each prime p1 from 2 up to n-2 and for each, we test whether n - p1 is also a prime.
+    # If yes, the pair (p1, p2) is what we want, and we stop.
+    for p1 in range(2, n - 1):
+        if is_prime(p1):
+            p2 = n - p1
+            if is_prime(p2):
+                return p1, p2
+
+    return None
+
+
 def test_get_largest_prime_below():
     """ Unit tests for the get_largest_prime_below(int) function. """
     assert get_largest_prime_below(0) == -1
@@ -96,10 +142,24 @@ def test_is_palindrome():
     assert is_palindrome(2335) == False
 
 
+def test_get_goldbach():
+    """ Unit tests for the get_goldbach(int) function. """
+    assert get_goldbach(-5) == None
+    assert get_goldbach(0) == None
+    assert get_goldbach(1) == None
+    assert get_goldbach(2) == None
+    assert get_goldbach(3) == None
+    assert get_goldbach(4) == (2, 2)
+    assert get_goldbach(10) == (3, 7)
+    assert get_goldbach(39) == (2, 37)
+    assert get_goldbach(98) == (19, 79)
+
+
 def run_tests():
     """ Runs all unit tests and prints a message if they are successful. """
     test_get_largest_prime_below()
     test_is_palindrome()
+    test_get_goldbach()
 
     print("\n[TEST] All tests passed, yay!\n")
 
