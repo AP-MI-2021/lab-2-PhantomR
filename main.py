@@ -59,7 +59,7 @@ def is_palindrome(n: int) -> bool:
     return mirrored_n == original_n
 
 
-def get_largest_prime_below(n: int) -> int:
+def get_largest_prime_below(n: int) -> Optional[int]:
     """
     Finds the largest prime number smaller than a given number, if it exists.
     Returns -1 if the number does not exist.
@@ -71,8 +71,9 @@ def get_largest_prime_below(n: int) -> int:
 
     Returns
     -------
-    int:
-        The value of the largest prime smaller than n, if it exists ; -1, if it does not exist.
+    Optional[int]:
+        The value of the largest prime smaller than n, if it exists.
+        None, if it does not exist
     """
     # we check the primality of the numbers smaller than n in decreasing order
     for number in range(n - 1, 1, -1):
@@ -80,7 +81,7 @@ def get_largest_prime_below(n: int) -> int:
             return number
 
     # we were unable to find such prime
-    return -1
+    return None
 
 
 def get_goldbach(n: int) -> Optional[Tuple[int, int]]:
@@ -124,10 +125,10 @@ def get_goldbach(n: int) -> Optional[Tuple[int, int]]:
 
 def test_get_largest_prime_below():
     """ Unit tests for the get_largest_prime_below(int) function. """
-    assert get_largest_prime_below(0) == -1
-    assert get_largest_prime_below(1) == -1
-    assert get_largest_prime_below(2) == -1
-    assert get_largest_prime_below(-5) == -1
+    assert get_largest_prime_below(0) == None
+    assert get_largest_prime_below(1) == None
+    assert get_largest_prime_below(2) == None
+    assert get_largest_prime_below(-5) == None
 
     assert get_largest_prime_below(7) == 5
     assert get_largest_prime_below(103) == 101
@@ -214,9 +215,9 @@ def ui_process_find_largest_prime_below():
     """
     n = int(input("Input an integer: "))
     largest_prime_below_n = get_largest_prime_below(n)
-    if largest_prime_below_n == -1:
+    if largest_prime_below_n is None:
         # such prime does not exist
-        print("There is no prime below {}.".format(n))
+        print("There is no prime belo3w {}.".format(n))
     else:
         print("The largest prime below {} is {}.".format(n, largest_prime_below_n))
 
