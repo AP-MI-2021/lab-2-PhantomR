@@ -28,18 +28,18 @@ def is_prime(n):
     return True
 
 
-def is_palyndrome(n: int) -> bool:
+def is_palindrome(n: int) -> bool:
     """
-    Finds whether a given natural number is a palyndrome.
+    Finds whether a given natural number is a palindrome.
 
     Parameters
     ----------
     n : int
-        The natural number for which we want to know whether it is a palyndrome or not.
+        The natural number for which we want to know whether it is a palindrome or not.
 
     Returns
     -------
-        True, if the given number is a palyndrome ; False, otherwise.
+        True, if the given number is a palindrome ; False, otherwise.
     """
     # we build the mirrored number
     original_n = n
@@ -48,7 +48,7 @@ def is_palyndrome(n: int) -> bool:
         mirrored_n = mirrored_n * 10 + n % 10
         n = n // 10
 
-    # the given number is a palyndrome iff the number equals its mirrored part.
+    # the given number is a palindrome iff the number equals its mirrored number.
     return mirrored_n == original_n
 
 
@@ -87,19 +87,19 @@ def test_get_largest_prime_below():
     assert get_largest_prime_below(103) == 101
 
 
-def test_is_palyndrome():
-    """ Unit tests for the is_palyndrome(int) function. """
-    assert is_palyndrome(-1) == False
-    assert is_palyndrome(1) == True
-    assert is_palyndrome(0) == True
-    assert is_palyndrome(1551) == True
-    assert is_palyndrome(2335) == False
+def test_is_palindrome():
+    """ Unit tests for the is_palindrome(int) function. """
+    assert is_palindrome(-1) == False
+    assert is_palindrome(1) == True
+    assert is_palindrome(0) == True
+    assert is_palindrome(1551) == True
+    assert is_palindrome(2335) == False
 
 
 def run_tests():
     """ Runs all unit tests and prints a message if they are successful. """
     test_get_largest_prime_below()
-    test_is_palyndrome()
+    test_is_palindrome()
 
     print("\n[TEST] All tests passed, yay!\n")
 
@@ -161,13 +161,14 @@ def ui_process_find_largest_prime_below():
         print("The largest prime below {} is {}.".format(n, largest_prime_below_n))
 
 
-def ui_process_is_palyndrome():
-    """ Reads an integer from Standard Input and displays whether it is a palyndrome or not. """
+def ui_process_is_palindrome():
+    """ Reads an integer from Standard Input and displays whether it is a palindrome or not. """
     n = int(input("Input an integer: "))
-    if is_palyndrome(n):
-        print("The number {} IS a palyndrome.".format(n))
+    if is_palindrome(n):
+        print("The number {} IS a palindrome.".format(n))
     else:
-        print("The number {} is NOT a palyndrome.".format(n))
+        print("The number {} is NOT a palindrome.".format(n))
+
 
 def ui_process_command(command: int, lst: list) -> (list, bool):
     """
@@ -201,7 +202,7 @@ def ui_process_command(command: int, lst: list) -> (list, bool):
     elif command == 3:
         ui_process_find_largest_prime_below()
     elif command == 4:
-        ui_process_is_palyndrome()
+        ui_process_is_palindrome()
     else:
         print("Invalid command. Please try again.")
 
@@ -226,7 +227,7 @@ def ui_show_menu():
     print("1. Read list")
     print("2. Display list")
     print("3. Find largest prime below a read number")
-    print("4. Find whether a read number is a palyndrome")
+    print("4. Find whether a read number is a palindrome")
     print("--------------------")
     print("0. EXIT")
 
@@ -237,6 +238,7 @@ def main() -> int:
     ui_loop()
 
     return 1
+
 
 if __name__ == "__main__":
     main()
