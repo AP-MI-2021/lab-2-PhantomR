@@ -230,6 +230,16 @@ def ui_process_is_palindrome():
         print("The number {} is NOT a palindrome.".format(n))
 
 
+def ui_process_get_goldbach():
+    n = int(input("Input an integer: "))
+    result = get_goldbach(n)
+    if result is None:
+        print("The number {} cannot be decomposed as the sum of two primes.".format(n))
+    else:
+        p1, p2 = result
+        print("The number {} can be written as the sum of the primes {} and {}.".format(n, p1, p2))
+
+
 def ui_process_command(command: int, lst: list) -> (list, bool):
     """
     Receives a command number and processes it, eventually using the list lst.
@@ -263,6 +273,8 @@ def ui_process_command(command: int, lst: list) -> (list, bool):
         ui_process_find_largest_prime_below()
     elif command == 4:
         ui_process_is_palindrome()
+    elif command == 5:
+        ui_process_get_goldbach()
     else:
         print("Invalid command. Please try again.")
 
@@ -288,6 +300,7 @@ def ui_show_menu():
     print("2. Display list")
     print("3. Find largest prime below a read number")
     print("4. Find whether a read number is a palindrome")
+    print("5. Find the Goldbach decomposition of a read number.")
     print("--------------------")
     print("0. EXIT")
 
@@ -302,3 +315,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     main()
+
