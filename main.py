@@ -28,6 +28,30 @@ def is_prime(n):
     return True
 
 
+def is_palyndrome(n: int) -> bool:
+    """
+    Finds whether a given natural number is a palyndrome.
+
+    Parameters
+    ----------
+    n : int
+        The natural number for which we want to know whether it is a palyndrome or not.
+
+    Returns
+    -------
+        True, if the given number is a palyndrome ; False, otherwise.
+    """
+    # we build the mirrored number
+    original_n = n
+    mirrored_n = 0
+    while n > 0:
+        mirrored_n = mirrored_n * 10 + n % 10
+        n = n // 10
+
+    # the given number is a palyndrome iff the number equals its mirrored part.
+    return mirrored_n == original_n
+
+
 def get_largest_prime_below(n: int) -> int:
     """
     Finds the largest prime number smaller than a given number, if it exists.
@@ -63,9 +87,19 @@ def test_get_largest_prime_below():
     assert get_largest_prime_below(103) == 101
 
 
+def test_is_palyndrome():
+    """ Unit tests for the is_palyndrome(int) function. """
+    assert is_palyndrome(-1) == False
+    assert is_palyndrome(1) == True
+    assert is_palyndrome(0) == True
+    assert is_palyndrome(1551) == True
+    assert is_palyndrome(2335) == False
+
+
 def run_tests():
     """ Runs all unit tests and prints a message if they are successful. """
     test_get_largest_prime_below()
+    test_is_palyndrome()
 
     print("\n[TEST] All tests passed, yay!\n")
 
@@ -114,7 +148,10 @@ def ui_process_display_list(lst: list):
 
 
 def ui_process_find_largest_prime_below():
-    """ Reads an integer from Standard Input and displays the largest prime smaller than it, or a message if it does not exist. """
+    """
+    Reads an integer from Standard Input and displays the largest prime smaller than it, or a message if it does
+    not exist.
+    """
     n = int(input("Input an integer: "))
     largest_prime_below_n = get_largest_prime_below(n)
     if largest_prime_below_n == -1:
@@ -123,6 +160,14 @@ def ui_process_find_largest_prime_below():
     else:
         print("The largest prime below {} is {}.".format(n, largest_prime_below_n))
 
+
+def ui_process_is_palyndrome():
+    """ Reads an integer from Standard Input and displays whether it is a palyndrome or not. """
+    n = int(input("Input an integer: "))
+    if is_palyndrome(n):
+        print("The number {} IS a palyndrome.".format(n))
+    else:
+        print("The number {} is NOT a palyndrome.".format(n))
 
 def ui_process_command(command: int, lst: list) -> (list, bool):
     """
@@ -155,6 +200,8 @@ def ui_process_command(command: int, lst: list) -> (list, bool):
         ui_process_display_list(lst)
     elif command == 3:
         ui_process_find_largest_prime_below()
+    elif command == 4:
+        ui_process_is_palyndrome()
     else:
         print("Invalid command. Please try again.")
 
@@ -179,6 +226,7 @@ def ui_show_menu():
     print("1. Read list")
     print("2. Display list")
     print("3. Find largest prime below a read number")
+    print("4. Find whether a read number is a palyndrome")
     print("--------------------")
     print("0. EXIT")
 
