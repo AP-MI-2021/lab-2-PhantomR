@@ -1,4 +1,4 @@
-def ui_process_read_list():
+def ui_process_read_list() -> list:
     """
     Reads a list from Standard Input.
 
@@ -7,7 +7,27 @@ def ui_process_read_list():
     list:
         The list read from Standard Input.
     """
-    return list(input("Please input a list (comma separated elements): "))
+    n = int(input("Input the number of elements in the list:"))
+    lst = []
+    for i in range(n):
+        list_element = int(input("Input element {}:".format(i)))
+        lst.append(list_element)
+
+    return lst
+
+
+def ui_process_display_list(lst: list):
+    """
+    Displays a list to Standard Output.
+
+    Parameters
+    ----------
+    lst : list
+        The list to display.
+    """
+    for list_element in lst:
+        print(list_element, end=" ")
+
 
 def ui_read_command() -> int:
     """
@@ -21,7 +41,7 @@ def ui_read_command() -> int:
     return int(input("Please enter a command: "))
 
 
-def ui_process_command(command: int, lst: list) -> bool:
+def ui_process_command(command: int, lst: list) -> (list, bool):
     """
     Receives a command number and processes it, eventually using the list lst.
     Returns the (possible modified) list and a bool telling whether an exit command was
@@ -48,10 +68,13 @@ def ui_process_command(command: int, lst: list) -> bool:
         exit_command = True
     elif command == 1:
         lst = ui_process_read_list()
+    elif command == 2:
+        ui_process_display_list(lst)
     else:
         print("Invalid command. Please try again.")
 
     return lst, exit_command
+
 
 def ui_loop():
     """ Reads and processes commands repeatedly until an EXIT command is received. """
@@ -74,9 +97,11 @@ def ui_show_menu():
     print("0. EXIT")
 
 
-def main():
+def main() -> int:
     """ Entry point for the program. """
     ui_loop()
+
+    return 1
 
 if __name__ == "__main__":
     main()
